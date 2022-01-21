@@ -129,11 +129,11 @@ USE `coderscampus`;
 CREATE  OR REPLACE VIEW `uv_order_by_date` AS
     SELECT 
         cust.name,
-        DATE_FORMAT(`ord`.`date`, '%m/%d/%Y %h:%i %p') AS `Order date/time`,
+        DATE_FORMAT(`ord`.`date`, '%m/%d/%Y') AS `Order date/time`,
         count(*) AS orders
     FROM
         `customer_order` cust_order
 	INNER JOIN `customer` cust ON cust_order.customer_id = cust.customer_id
     INNER JOIN `order` ord ON cust_order.order_id = ord.order_id
     INNER JOIN `pizza` piz ON ord.pizza_id = piz.pizza_id
-	GROUP BY (ord.`date`);
+    GROUP BY `cust`.`name` , CAST(`ord`.`date` AS DATE);
